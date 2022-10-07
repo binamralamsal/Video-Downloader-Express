@@ -8,37 +8,18 @@ const app = express();
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-app.get("/twitter", (req, res) => {
-  res.render("twitter");
-});
-
-app.get("/instagram", (req, res) => {
-  res.render("instagram");
-});
-
-app.get("/facebook", (req, res) => {
-  res.render("facebook");
-});
+app.use(express.json());
 
 app.post("/download-twitter", async (req, res) => {
   const { url } = req.body;
+
   try {
     const response = await twitterGetUrl(url);
     if (!response.found) throw new Error("Invalid URL");
-    console.log(response);
-    if (response.type.startsWith("image"))
-      res.render("twitter", { image: response.download });
-    else res.render("twitter", { videos: response.download });
+
+    res.json(response);
   } catch (error) {
-    res.render("twitter", {
-      error: "Error occurred! Make sure that the URL is correct",
-    });
+    res.json({ found: false, error: "Invalid URL" });
   }
 });
 
@@ -49,11 +30,9 @@ app.post("/download-instagram", async (req, res) => {
     const response = await instagramGetUrl(url);
 
     if (response.results_number < 1) throw new Error("Invalid URL");
-    res.render("instagram", { video: response.url_list[0] });
+    res.json({ found: true, download: response });
   } catch (error) {
-    res.render("instagram", {
-      error: "Error occurred! Make sure that the URL is correct",
-    });
+    res.json({ found: false, error: "Invalid URL" });
   }
 });
 
@@ -62,11 +41,9 @@ app.post("/download-facebook", async (req, res) => {
 
   try {
     const response = await getFBInfo(url);
-    res.render("facebook", { response });
+    res.json({ found: true, download: response });
   } catch (error) {
-    res.render("facebook", {
-      error: "Error occurred! Make sure that the URL is correct",
-    });
+    res.json({ found: false, error: "Invalid URL" });
   }
 });
 
