@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Facebook Video Downloader</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+
+    <div class="container">
+        <form action="/download-facebook" method="post" class="form">
+            <div>
+                <label for="url">Facebook Video URL</label>
+                <input required type="url" name="url" id="url" />
+            </div>
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <% if (locals.error){ %>
+            <%= error %>
+        <% }%>
+    </div>
+
+    <% if (locals.response){ %>
+        <div class="videos_container">
+            <h2 class="title">Downloaded Videos</h2>
+            <ul>
+                <li><a href="<%= response.sd %>" target="_blank" download>SD Quality</a></li>
+                <li><a href="<%= response.hd %>" target="_blank" download>HD Quality</a></li>
+            </ul>
+        </div>
+    <% } %>
+</body>
+</html>

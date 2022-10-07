@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Instagram Video Downlaoder</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <%- include("./partials/navbar.ejs") %>
+    <div class="container">
+        <form action="/download-instagram" method="post" class="form">
+            <div>
+                <label for="url">Instagram Video URL</label>
+                <input required type="url" name="url" id="url">
+            </div>
+            <button>Submit</button>
+        </form>
+    </div>
+
+    <div class="container">
+        <% if (locals.error){ %>
+            <%= error %>
+        <% }%>
+    </div>
+
+    <% if (locals.video){ %>
+        <div class="videos_container">
+            <h2 class="title">Downloaded videos</h2>
+            <ul>
+                <li>
+                    <a href="<%= video %>" download target="_blank">Video</a>
+                </li>
+            </ul>
+        </div>
+    <% } %>
+</body>
+</html>
