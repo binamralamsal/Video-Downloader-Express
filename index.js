@@ -30,7 +30,7 @@ app.post("/download-instagram", async (req, res) => {
     const response = await instagramGetUrl(url);
 
     if (response.results_number < 1) throw new Error("Invalid URL");
-    res.json({ found: true, download: response });
+    res.json({ found: true, download: response.url_list[0] });
   } catch (error) {
     res.json({ found: false, error: "Invalid URL" });
   }
