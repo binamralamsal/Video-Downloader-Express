@@ -31,8 +31,10 @@ app.post("/download-twitter", async (req, res) => {
   try {
     const response = await twitterGetUrl(url);
     if (!response.found) throw new Error("Invalid URL");
-
-    res.render("twitter", { videos: response.download });
+    console.log(response);
+    if (response.type.startsWith("image"))
+      res.render("twitter", { image: response.download });
+    else res.render("twitter", { videos: response.download });
   } catch (error) {
     res.render("twitter", {
       error: "Error occurred! Make sure that the URL is correct",

@@ -19,22 +19,26 @@
             <button>Submit</button>
         </form>
 
-        <div class="container">
-            <% if (locals.error){ %>
-                <%= error %>
-            <% }%>
-        </div>
+        <% if (locals.error){ %>
+            <%= error %>
+        <% }%>
 
-        <% if (locals.videos){ %>
-            <div class="videos_container">
-                <h2 class="title">Downloaded Videos</h2>
+        <div class="videos_container">
+            <h2 class="title">
+                Downloaded <%= locals.image ? "Image" : "Videos" %>
+            </h2>
+            <% if (locals.image){ %>
+                <img src="<%= image %>" alt="Downloaded Image" style="width: 100%">
+            <% } %>
+
+            <% if (locals.videos){ %>
                 <ul>
                     <% for (const video of videos) { %>
                         <li><a href="<%= video.url %>" target="_blank"><%= video.dimension %></a></li>
                     <% } %>
                 </ul>
-            </div>
-        <% } %>
+            <% } %>
+        </div>
     </div>
 </body>
 </html>
